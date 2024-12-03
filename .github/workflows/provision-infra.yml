@@ -26,7 +26,7 @@ jobs:
     # GCP authentication
     - uses: google-github-actions/auth@v2
       with:
-        cli_config_credentials_token: ${{ secrets.GCLOUD_KEYFILE_JSON }}
+        credentials_json: ${{ secrets.GCLOUD_KEYFILE_JSON }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
