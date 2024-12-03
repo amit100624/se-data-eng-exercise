@@ -1,11 +1,11 @@
 terraform {
   backend "gcs" {
-    bucket  = "tf-state-se-data-amit"
-    prefix  = "terraform/state"
+    bucket = "tf-state-se-data-amit"
+    prefix = "terraform/state"
   }
   required_providers {
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
       version = "6.12.0"
     }
   }
@@ -16,7 +16,7 @@ provider "google" {
 }
 
 module "cloud_storage" {
-  source = "./modules/cloud_storage"
+  source                      = "./modules/cloud_storage"
   bucket_name                 = var.cloud_storage.bucket_name
   location                    = var.cloud_storage.location
   storage_class               = var.cloud_storage.storage_class
