@@ -14,9 +14,17 @@ permissions:
   id-token: "write"
 
 jobs:
-  setup:
-    name: 'Terraform Setup'
+  terraform:
+    name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      TF_VAR_snowflake: '{ database = "${{vars.SNOWFLAKE_DATABASE}}", schema = "${{vars.SNOWFLAKE_SCHEMA}}" }'
+      SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
+      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
+      SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
+      SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
+      # SNOWFLAKE_PRIVATE_KEY: ${{secrets.SNOWFLAKE_PRIVATE_KEY}}
+      # SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -31,19 +39,6 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCLOUD_KEYFILE_JSON }}
 
-  execute:
-    name: 'Terraform Execute'
-    runs-on: ubuntu-latest
-    env:
-      TF_VAR_snowflake: '{ database = "${{vars.SNOWFLAKE_DATABASE}}", schema = "${{vars.SNOWFLAKE_SCHEMA}}" }'
-      SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
-      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
-      SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
-      SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
-      # SNOWFLAKE_PRIVATE_KEY: ${{secrets.SNOWFLAKE_PRIVATE_KEY}}
-      # SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
-
-    steps:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: cd terraform && terraform init
