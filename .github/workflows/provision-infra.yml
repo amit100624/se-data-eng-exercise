@@ -18,7 +18,8 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      TF_VAR_snowflake: '{ private_key = <<-EOT${{secrets.SNOWFLAKE_PRIVATE_KEY}}EOT, private_key_passphrase = "${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}" }'
+      TF_VAR_snowflake: '{ private_key_passphrase = "${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}" }'
+      TF_VAR_snowflake_private_key: "${{secrets.SNOWFLAKE_PRIVATE_KEY}}"
       SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
       SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
       SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}

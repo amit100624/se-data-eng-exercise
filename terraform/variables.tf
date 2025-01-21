@@ -26,7 +26,10 @@ variable "snowflake" {
   type = object({
     # database = string
     # schema   = string
-    private_key            = string
     private_key_passphrase = string
   })
+}
+
+variable "snowflake_private_key" {
+    type = string
 }
