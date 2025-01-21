@@ -27,7 +27,7 @@ jobs:
       # SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
 
     steps:
-    - name: Echo Env Vars
+    - name: Echo TF Vars
       run: |
         echo "TF_VAR_snowflake: $TF_VAR_snowflake"
 
