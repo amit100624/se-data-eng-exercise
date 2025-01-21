@@ -18,14 +18,13 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      # TF_VAR_snowflake: '{ password = "${{secrets.SNOWFLAKE_PASSWORD}}" }'
-      # TF_VAR_snowflake_private_key: "${{secrets.SNOWFLAKE_PRIVATE_KEY}}"
-      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
+      TF_VAR_snowflake: '{ database = "${{vars.SNOWFLAKE_DATABASE}}", schema = "${{vars.SNOWFLAKE_SCHEMA}}" }'
       SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
+      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
       SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
+      SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
       # SNOWFLAKE_PRIVATE_KEY: ${{secrets.SNOWFLAKE_PRIVATE_KEY}}
       # SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
-      SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
 
     steps:
     - name: Echo Env Vars
