@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_VAR_snowflake: "{ database = \"${{vars.SNOWFLAKE_DATABASE}}\", schema = \"${{vars.SNOWFLAKE_SCHEMA}}\" }"
+      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
+      SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
+      SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
+      SNOWFLAKE_PRIVATE_KEY: ${{secrets.SNOWFLAKE_PRIVATE_KEY}}
+      SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
 
     steps:
     - name: Echo Env Vars
@@ -26,6 +31,7 @@ jobs:
         echo "TF_VAR_snowflake: $TF_VAR_snowflake"
         echo "SNOWFLAKE_ACCOUNT_NAME: $SNOWFLAKE_ACCOUNT_NAME"
         echo "SNOWFLAKE_ORGANIZATION_NAME: $SNOWFLAKE_ORGANIZATION_NAME"
+        echo "SNOWFLAKE_USER: $SNOWFLAKE_USER"
 
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
