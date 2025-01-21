@@ -1,7 +1,7 @@
 resource "snowflake_table" "taxi_trips_curated" {
-  name      = "TAXI_TRIPS_CURATED"
-  database  = var.database
-  schema    = var.schema
+  name     = "TAXI_TRIPS_CURATED"
+  database = var.database
+  schema   = var.schema
 
   column {
     name = "VENDOR_NAME"
