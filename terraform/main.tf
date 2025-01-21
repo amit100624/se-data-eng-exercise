@@ -27,6 +27,6 @@ module "cloud_storage" {
 
 module "snowflake" {
   source   = "./modules/snowflake"
-  database = var.snowflake.database
-  schema   = var.snowflake.schema
+  private_key = var.snowflake.private_key
+  private_key_passphrase   = var.snowflake.private_key_passphrase
 }

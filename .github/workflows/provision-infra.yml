@@ -18,7 +18,11 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      TF_VAR_snowflake: "{ database = \"${{vars.SNOWFLAKE_DATABASE}}\", schema = \"${{vars.SNOWFLAKE_SCHEMA}}\" }"
+      TF_VAR_snowflake: |
+        "{
+          private_key = \"${{secrets.SNOWFLAKE_PRIVATE_KEY}}\",
+          private_key_passphrase = \"${{vars.SNOWFLAKE_SCHEMA}}\"
+        }"
       SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
       SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
       SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
@@ -26,6 +30,10 @@ jobs:
       SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}
 
     steps:
+    - name: Echo Env Vars
+      run: |
+        echo "TF_VAR_snowflake: $TF_VAR_snowflake"
+
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v4
