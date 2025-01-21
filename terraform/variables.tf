@@ -31,5 +31,5 @@ variable "snowflake" {
 }
 
 variable "snowflake_private_key" {
-    type = string
+  type = string
 }
