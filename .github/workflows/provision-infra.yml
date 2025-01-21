@@ -18,13 +18,14 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     env:
-      TF_VAR_snowflake: "{ database = \"${{var.SNOWFLAKE_DATABASE}}\", schema = \"${{var.SNOWFLAKE_SCHEMA}}\" }"
+      TF_VAR_snowflake: "{ database = \"${{vars.SNOWFLAKE_DATABASE}}\", schema = \"${{vars.SNOWFLAKE_SCHEMA}}\" }"
 
     steps:
     - name: Echo Env Vars
-      run: echo "TF_VAR_snowflake: $TF_VAR_snowflake"
-      run: echo "SNOWFLAKE_ACCOUNT_NAME: $SNOWFLAKE_ACCOUNT_NAME"
-      run: echo "SNOWFLAKE_ORGANIZATION_NAME: $SNOWFLAKE_ORGANIZATION_NAME"
+      run: |
+        echo "TF_VAR_snowflake: $TF_VAR_snowflake"
+        echo "SNOWFLAKE_ACCOUNT_NAME: $SNOWFLAKE_ACCOUNT_NAME"
+        echo "SNOWFLAKE_ORGANIZATION_NAME: $SNOWFLAKE_ORGANIZATION_NAME"
 
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
