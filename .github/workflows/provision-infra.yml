@@ -19,10 +19,12 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TF_VAR_snowflake: |
-        "{
-          private_key = \"${{secrets.SNOWFLAKE_PRIVATE_KEY}}\",
-          private_key_passphrase = \"${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}\"
-        }"
+        <<-EOT
+        {
+          private_key = "${{secrets.SNOWFLAKE_PRIVATE_KEY}}",
+          private_key_passphrase = "${{secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}}"
+        }
+        EOT
       SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
       SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
       SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
