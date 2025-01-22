@@ -14,14 +14,9 @@ permissions:
   id-token: "write"
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  setup:
+    name: 'Terraform Setup'
     runs-on: ubuntu-latest
-    env:
-      TF_VAR_snowflake: '{ database = "${{vars.SNOWFLAKE_DATABASE}}", schema = "${{vars.SNOWFLAKE_SCHEMA}}" }'
-      SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
-      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
-      SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
 
     steps:
     # Checkout the repository to the GitHub Actions runner
@@ -36,6 +31,18 @@ jobs:
       with:
         credentials_json: ${{ secrets.GCLOUD_KEYFILE_JSON }}
 
+  execute:
+    name: 'Terraform Execute'
+    runs-on: ubuntu-latest
+    needs: setup
+    env:
+      TF_VAR_snowflake: '{ database = "${{vars.SNOWFLAKE_DATABASE}}", schema = "${{vars.SNOWFLAKE_SCHEMA}}" }'
+      SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
+      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
+      SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
+      SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
+
+    steps:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: cd terraform && terraform init
@@ -46,9 +53,7 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      uses: ./.github/actions/terraform-command
-      with:
-        command: 'plan'
+      run: cd terraform && terraform plan -input=false
 
       # On push to "main", build or change infrastructure according to Terraform configuration files
     - name: Terraform Apply
