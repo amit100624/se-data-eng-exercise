@@ -24,3 +24,9 @@ module "cloud_storage" {
   uniform_bucket_level_access = var.cloud_storage.uniform_bucket_level_access
   force_destroy               = var.cloud_storage.force_destroy
 }
+
+module "snowflake" {
+  source   = "./modules/snowflake"
+  database = var.snowflake.database
+  schema   = var.snowflake.schema
+}

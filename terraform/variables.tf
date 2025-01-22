@@ -21,3 +21,10 @@ variable "cloud_storage" {
     force_destroy               = true
   }
 }
+
+variable "snowflake" {
+  type = object({
+    database = string
+    schema   = string
+  })
+}
