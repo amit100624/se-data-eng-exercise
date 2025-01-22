@@ -4,11 +4,7 @@ inputs:
     required: true
     default: 'plan'
 env:
-      TF_VAR_snowflake: '{ database = "${{vars.SNOWFLAKE_DATABASE}}", schema = "${{vars.SNOWFLAKE_SCHEMA}}" }'
-      SNOWFLAKE_ORGANIZATION_NAME: ${{vars.SNOWFLAKE_ORGANIZATION_NAME}}
-      SNOWFLAKE_ACCOUNT_NAME: ${{vars.SNOWFLAKE_ACCOUNT_NAME}}
-      SNOWFLAKE_USER: ${{vars.SNOWFLAKE_USER}}
-      SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
+  SNOWFLAKE_PASSWORD: ${{secrets.SNOWFLAKE_PASSWORD}}
 runs:
   using: 'composite'
   steps:
