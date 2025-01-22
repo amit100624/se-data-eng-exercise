@@ -5,21 +5,14 @@ variable "project" {
 
 variable "cloud_storage" {
   type = object({
-    bucket_name                 = string
-    location                    = string
-    storage_class               = string
-    public_access_prevention    = string
-    uniform_bucket_level_access = bool
-    force_destroy               = bool
+    bucket_name                 = optional(string, "se-data-landing-amit")
+    location                    = optional(string, "asia-south1")
+    storage_class               = optional(string, "STANDARD")
+    public_access_prevention    = optional(string, "enforced")
+    uniform_bucket_level_access = optional(bool, true)
+    force_destroy               = optional(bool, true)
   })
-  default = {
-    bucket_name                 = "se-data-landing-amit"
-    location                    = "asia-south1"
-    storage_class               = "STANDARD"
-    public_access_prevention    = "enforced"
-    uniform_bucket_level_access = true
-    force_destroy               = true
-  }
+  default = {}
 }
 
 variable "snowflake" {

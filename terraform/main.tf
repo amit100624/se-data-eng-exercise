@@ -3,20 +3,11 @@ terraform {
     bucket = "tf-state-se-data-amit"
     prefix = "terraform/state"
   }
-  required_providers {
-    google = {
-      source  = "hashicorp/google"
-      version = "6.12.0"
-    }
-  }
-}
-
-provider "google" {
-  project = var.project
 }
 
 module "cloud_storage" {
   source                      = "./modules/cloud_storage"
+  project                     = var.project
   bucket_name                 = var.cloud_storage.bucket_name
   location                    = var.cloud_storage.location
   storage_class               = var.cloud_storage.storage_class
