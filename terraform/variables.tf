@@ -5,6 +5,7 @@ variable "project" {
 
 variable "cloud_storage" {
   type = object({
+    project                     = string
     bucket_name                 = string
     location                    = string
     storage_class               = string
