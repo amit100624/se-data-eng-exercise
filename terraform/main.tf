@@ -17,7 +17,10 @@ module "cloud_storage" {
 }
 
 module "snowflake" {
-  source   = "./modules/snowflake"
-  database = var.snowflake.database
-  schema   = var.snowflake.schema
+  source       = "./modules/snowflake"
+  organization = var.snowflake.organization
+  account      = var.snowflake.account
+  user         = var.snowflake.user
+  database     = var.snowflake.database
+  schema       = var.snowflake.schema
 }
