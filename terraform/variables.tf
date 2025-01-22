@@ -12,6 +12,7 @@ variable "cloud_storage" {
     uniform_bucket_level_access = optional(bool, true)
     force_destroy               = optional(bool, true)
   })
+  default = {}
 }
 
 variable "snowflake" {
