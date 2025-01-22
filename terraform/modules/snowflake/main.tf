@@ -1,4 +1,4 @@
-resource "snowflake_table" "taxi_trips_curated" {
+resource "snowflake_table" "taxi_trips_raw" {
   name     = "TAXI_TRIPS_CURATED"
   database = var.database
   schema   = var.schema
