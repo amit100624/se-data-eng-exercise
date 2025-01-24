@@ -1,120 +1,120 @@
 resource "snowflake_table" "taxi_trips_raw" {
-  name     = "taxi_trips_raw"
+  name     = "TAXI_TRIPS_RAW"
   database = var.database
   schema   = var.schema
 
   column {
-    name = "vendor_name"
+    name = "VENDOR_NAME"
     type = "STRING"
   }
 
   column {
-    name = "tpep_pickup_datetime"
+    name = "TPEP_PICKUP_DATETIME"
     type = "STRING"
   }
 
   column {
-    name = "tpep_dropoff_datetime"
+    name = "TPEP_DROPOFF_DATETIME"
     type = "STRING"
   }
 
   column {
-    name = "passenger_count"
+    name = "PASSENGER_COUNT"
     type = "STRING"
   }
 
   column {
-    name = "trip_distance"
+    name = "TRIP_DISTANCE"
     type = "STRING"
   }
 
   column {
-    name = "pickup_longitude"
+    name = "PICKUP_LONGITUDE"
     type = "STRING"
   }
 
   column {
-    name = "pickup_latitude"
+    name = "PICKUP_LATITUDE"
     type = "STRING"
   }
 
   column {
-    name = "ratecode_id"
+    name = "RATECODE_ID"
     type = "STRING"
   }
 
   column {
-    name = "store_and_fwd_flag"
+    name = "STORE_AND_FWD_FLAG"
     type = "STRING"
   }
 
   column {
-    name = "dropoff_longitude"
+    name = "DROPOFF_LONGITUDE"
     type = "STRING"
   }
 
   column {
-    name = "dropoff_latitude"
+    name = "DROPOFF_LATITUDE"
     type = "STRING"
   }
 
   column {
-    name = "payment_type"
+    name = "PAYMENT_TYPE"
     type = "STRING"
   }
 
   column {
-    name = "payment_type_name"
+    name = "PAYMENT_TYPE_NAME"
     type = "STRING"
   }
 
   column {
-    name = "fare_amount"
+    name = "FARE_AMOUNT"
     type = "STRING"
   }
 
   column {
-    name = "extra"
+    name = "EXTRA"
     type = "STRING"
   }
 
   column {
-    name = "mta_tax"
+    name = "MTA_TAX"
     type = "STRING"
   }
 
   column {
-    name = "tip_amount"
+    name = "TIP_AMOUNT"
     type = "STRING"
   }
 
   column {
-    name = "tolls_amount"
+    name = "TOLLS_AMOUNT"
     type = "STRING"
   }
 
   column {
-    name = "improvement_surcharge"
+    name = "IMPROVEMENT_SURCHARGE"
     type = "STRING"
   }
 
   column {
-    name = "total_amount"
+    name = "TOTAL_AMOUNT"
     type = "STRING"
   }
 
   column {
-    name = "trip_duration_minutes"
+    name = "TRIP_DURATION_MINUTES"
     type = "STRING"
   }
 
   column {
-    name = "trip_speed_mph"
+    name = "TRIP_SPEED_MPH"
     type = "STRING"
   }
 
   column {
-    name = "created_timestamp"
+    name = "CREATED_TIMESTAMP"
     type = "TIMESTAMP_NTZ"
     default {
       expression = "CURRENT_TIMESTAMP()"
