@@ -12,5 +12,8 @@ provider "snowflake" {
   user              = var.user
   authenticator     = var.authenticator
 
-  preview_features_enabled = ["snowflake_table_resource"]
+  preview_features_enabled = [
+    "snowflake_table_resource",
+    "snowflake_stage_resource"
+  ]
 }
