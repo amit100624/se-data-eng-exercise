@@ -15,10 +15,11 @@ variable "cloud_storage" {
 
 variable "snowflake" {
   type = object({
-    organization = string
-    account      = string
-    user         = string
-    database     = string
-    schema       = string
+    organization  = string
+    account       = string
+    user          = string
+    authenticator = string
+    database      = string
+    schema        = string
   })
 }

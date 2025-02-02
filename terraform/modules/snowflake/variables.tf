@@ -10,6 +10,10 @@ variable "user" {
   type = string
 }
 
+variable "authenticator" {
+  type = string
+}
+
 variable "database" {
   type = string
 }
