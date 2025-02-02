@@ -14,6 +14,6 @@ provider "snowflake" {
 
   preview_features_enabled = [
     "snowflake_table_resource",
-    "snowflake_stage"
+    "snowflake_stage_resource"
   ]
 }
