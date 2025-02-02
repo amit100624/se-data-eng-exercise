@@ -6,3 +6,9 @@ resource "google_storage_bucket" "cloud_storage_bucket" {
   uniform_bucket_level_access = var.uniform_bucket_level_access
   force_destroy               = var.force_destroy
 }
+
+resource "google_storage_bucket_object" "taxi_trip_raw_dir" {
+  name    = "taxi_trip_data_raw/"
+  content = "Placeholder content"
+  bucket  = var.bucket_name
+}

@@ -1,27 +1,27 @@
 variable "project" {
-  type    = string
+  type = string
 }
 
 variable "bucket_name" {
-  type    = string
+  type = string
 }
 
 variable "location" {
-  type    = string
+  type = string
 }
 
 variable "storage_class" {
-  type    = string
+  type = string
 }
 
 variable "public_access_prevention" {
-  type    = string
+  type = string
 }
 
 variable "uniform_bucket_level_access" {
-  type    = bool
+  type = bool
 }
 
 variable "force_destroy" {
-  type    = bool
+  type = bool
 }
