@@ -6,6 +6,10 @@ variable "bucket_name" {
   type = string
 }
 
+variable "staging_bucket_name" {
+  type = string
+}
+
 variable "location" {
   type = string
 }

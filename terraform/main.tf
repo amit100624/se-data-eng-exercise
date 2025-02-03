@@ -9,6 +9,7 @@ module "cloud_storage" {
   source                      = "./modules/cloud_storage"
   project                     = var.project
   bucket_name                 = var.cloud_storage.bucket_name
+  staging_bucket_name         = var.cloud_storage.staging_bucket_name
   location                    = var.cloud_storage.location
   storage_class               = var.cloud_storage.storage_class
   public_access_prevention    = var.cloud_storage.public_access_prevention
