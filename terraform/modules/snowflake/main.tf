@@ -123,8 +123,9 @@ resource "snowflake_table" "taxi_trips_raw" {
 }
 
 resource "snowflake_stage" "taxi_trip_data_raw_stage" {
-  name        = "TAXI_TRIP_DATA_RAW_STAGE"
-  url         = "gcs://se-data-landing-amit/taxi_trip_data_raw"
-  database    = var.database
-  schema      = var.schema
+  name                = "TAXI_TRIP_DATA_RAW_STAGE"
+  url                 = "gcs://se-data-landing-amit/taxi_trip_data_raw"
+  database            = var.database
+  schema              = var.schema
+  storage_integration = "EE_SE_DATA_ENGG_GCS"
 }
