@@ -122,10 +122,18 @@ resource "snowflake_table" "taxi_trips_raw" {
   }
 }
 
-resource "snowflake_stage" "taxi_trip_data_raw_stage" {
-  name                = "TAXI_TRIP_DATA_RAW_STAGE"
-  url                 = "gcs://se-data-landing-amit/taxi_trip_data_raw"
+resource "snowflake_stage" "taxi_trips_raw_stage" {
+  name                = "TAXI_TRIPS_RAW_STAGE"
+  url                 = "gcs://ee-se-data-engg/amit_taxi_trips_raw"
   database            = var.database
   schema              = var.schema
   storage_integration = "EE_SE_DATA_ENGG_GCS"
+  directory           = "enabled"
+}
+
+resource "snowflake_file_format" "csv_file_format" {
+  name        = "CSV_FILE_FORMAT"
+  database    = var.database
+  schema      = var.schema
+  format_type = "CSV"
 }

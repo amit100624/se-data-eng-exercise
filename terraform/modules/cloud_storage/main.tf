@@ -7,8 +7,8 @@ resource "google_storage_bucket" "cloud_storage_bucket" {
   force_destroy               = var.force_destroy
 }
 
-resource "google_storage_bucket_object" "taxi_trip_raw_dir" {
-  name    = "taxi_trip_data_raw/"
+resource "google_storage_bucket_object" "taxi_trips_raw_dir" {
+  name    = "amit_taxi_trips_raw/"
   content = "Placeholder content"
-  bucket  = var.bucket_name
+  bucket  = var.staging_bucket_name
 }
