@@ -128,7 +128,7 @@ resource "snowflake_stage" "taxi_trips_raw_stage" {
   database            = var.database
   schema              = var.schema
   storage_integration = "EE_SE_DATA_ENGG_GCS"
-  directory           = "( ENABLE = TRUE )"
+  directory           = "ENABLE=TRUE"
 }
 
 resource "snowflake_file_format" "csv_file_format" {
