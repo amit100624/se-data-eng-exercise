@@ -136,4 +136,5 @@ resource "snowflake_file_format" "csv_file_format" {
   database    = var.database
   schema      = var.schema
   format_type = "CSV"
+  skip_header = 1
 }
