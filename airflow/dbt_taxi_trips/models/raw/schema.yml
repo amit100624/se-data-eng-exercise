@@ -1,0 +1,47 @@
+version: 2
+
+sources:
+  - name: taxi_trips
+    database: ee_se_de_db
+    schema: amitd
+    tables:
+      - name: taxi_trips_raw
+
+models:
+  - name: stg_taxi_trips_consistent
+    description: "Taxi trips consistent data"
+    config:
+#      materialized: incremental
+#      incremental_strategy: "delete+insert"
+#      unique_key: vendor_id
+      materialized: table
+      pre_hook:
+        sql: "TRUNCATE TABLE STG_TAXI_TRIPS_CONSISTENT;"
+        transaction: False
+    columns:
+      - name: VENDOR_ID
+        tests:
+          - dbt_utils.not_accepted_values:
+                values: [ 'test_vendor_id']
+      - name: TPEP_PICKUP_DATETIME
+      - name: TPEP_DROPOFF_DATETIME
+      - name: PASSENGER_COUNT
+      - name: TRIP_DISTANCE
+      - name: PICKUP_LONGITUDE
+      - name: PICKUP_LATITUDE
+      - name: RATECODE_ID
+      - name: STORE_AND_FWD_FLAG
+      - name: DROPOFF_LONGITUDE
+      - name: DROPOFF_LATITUDE
+      - name: PAYMENT_TYPE
+      - name: PAYMENT_TYPE_NAME
+      - name: FARE_AMOUNT
+      - name: EXTRA
+      - name: MTA_TAX
+      - name: TIP_AMOUNT
+      - name: TOLLS_AMOUNT
+      - name: IMPROVEMENT_SURCHARGE
+      - name: TOTAL_AMOUNT
+      - name: TRIP_DURATION_MINUTES
+      - name: TRIP_SPEED_MPH
+      - name: CREATED_TIMESTAMP

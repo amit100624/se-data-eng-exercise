@@ -1,0 +1,7 @@
+logs
+env
+dbt_env
+config
+.env*
+.user.yml
+/dags/__pycache__

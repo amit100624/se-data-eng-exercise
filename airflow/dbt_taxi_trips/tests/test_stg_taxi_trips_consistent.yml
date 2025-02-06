@@ -1,0 +1,79 @@
+unit_tests:
+  - name: test_stg_taxi_trips_consistent_happy_path
+    description: "Test that stg_taxi_trips_consistent transforms data in the happy path"
+    model: stg_taxi_trips_consistent
+    given:
+      - input: source('taxi_trips', 'taxi_trips_raw')
+        rows:
+          - VENDOR_NAME: '123'
+            TPEP_PICKUP_DATETIME: '2016-01-01 00:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-01 00:00:00'
+            PASSENGER_COUNT: '2'
+            TRIP_DISTANCE: '1.10'
+            PICKUP_LONGITUDE: '-73.990371704101563'
+            PICKUP_LATITUDE: '40.734695434570313'
+            RATECODE_ID: '1'
+            STORE_AND_FWD_FLAG: 'N'
+            DROPOFF_LONGITUDE: '-73.981842041015625'
+            DROPOFF_LATITUDE: '40.732406616210937'
+            PAYMENT_TYPE: '2'
+            PAYMENT_TYPE_NAME: '7.5'
+            FARE_AMOUNT: '0.5'
+            EXTRA: '0.5'
+            MTA_TAX: '0'
+            TIP_AMOUNT: '0'
+            TOLLS_AMOUNT: '0.3'
+            IMPROVEMENT_SURCHARGE: '8.8'
+            TOTAL_AMOUNT: '50.5'
+            TRIP_DURATION_MINUTES: '105'
+            TRIP_SPEED_MPH: '102.4'
+            CREATED_TIMESTAMP: '2025-01-01 00:00:00'
+    expect:
+      format: sql
+      rows: |
+        select '123' as VENDOR_ID,
+        '2016-01-01 00:00:00' as TPEP_PICKUP_DATETIME,
+        '2016-01-01 00:00:00' as TPEP_DROPOFF_DATETIME,
+        2 as PASSENGER_COUNT,
+        1.10 as TRIP_DISTANCE,
+        -73.990371704101563 as PICKUP_LONGITUDE,
+        40.734695434570313 as PICKUP_LATITUDE,
+        1 as RATECODE_ID,
+        'N' as STORE_AND_FWD_FLAG,
+        -73.981842041015625 as DROPOFF_LONGITUDE,
+        40.732406616210937 as DROPOFF_LATITUDE,
+        2 as PAYMENT_TYPE,
+        7.5 as PAYMENT_TYPE_NAME,
+        0.5 as FARE_AMOUNT,
+        0.5 as EXTRA,
+        0 as MTA_TAX,
+        0 as TIP_AMOUNT,
+        0.3 as TOLLS_AMOUNT,
+        8.8 as IMPROVEMENT_SURCHARGE,
+        50.5 as TOTAL_AMOUNT,
+        105 as TRIP_DURATION_MINUTES,
+        102.4 as TRIP_SPEED_MPH,
+        '2025-01-01 00:00:00' as CREATED_TIMESTAMP
+#        - VENDOR_ID: '123'
+#          TPEP_PICKUP_DATETIME: '2016-01-01 00:00:00'
+#          TPEP_DROPOFF_DATETIME: '2016-01-01 00:00:00'
+#          PASSENGER_COUNT: 2
+#          TRIP_DISTANCE: 1.10
+#          PICKUP_LONGITUDE: -73.990371704101563
+#          PICKUP_LATITUDE: 40.734695434570313
+#          RATECODE_ID: 1
+#          STORE_AND_FWD_FLAG: 'N'
+#          DROPOFF_LONGITUDE: -73.981842041015625
+#          DROPOFF_LATITUDE: 40.732406616210937
+#          PAYMENT_TYPE: 2
+#          PAYMENT_TYPE_NAME: 7.5
+#          FARE_AMOUNT: 0.5
+#          EXTRA: 0.5
+#          MTA_TAX: 0
+#          TIP_AMOUNT: 0
+#          TOLLS_AMOUNT: 0.3
+#          IMPROVEMENT_SURCHARGE: 8.8
+#          TOTAL_AMOUNT: 50.5
+#          TRIP_DURATION_MINUTES: 105
+#          TRIP_SPEED_MPH: 102.4
+#          CREATED_TIMESTAMP: '2025-01-01 00:00:00'
