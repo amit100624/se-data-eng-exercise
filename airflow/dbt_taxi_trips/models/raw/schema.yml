@@ -6,33 +6,71 @@ sources:
     schema: amitd
     tables:
       - name: taxi_trips_raw
+        columns:
+          - name: TPEP_PICKUP_DATETIME
+            tests:
+              - dbt_utils.not_empty_string
+          - name: TPEP_DROPOFF_DATETIME
+            tests:
+              - dbt_utils.not_empty_string
+          - name: PICKUP_LONGITUDE
+            tests:
+              - dbt_utils.not_empty_string
+          - name: PICKUP_LATITUDE
+            tests:
+              - dbt_utils.not_empty_string
 
 models:
   - name: stg_taxi_trips_consistent
     description: "Taxi trips consistent data"
     config:
-#      materialized: incremental
-#      incremental_strategy: "delete+insert"
-#      unique_key: vendor_id
       materialized: table
       pre_hook:
         sql: "TRUNCATE TABLE STG_TAXI_TRIPS_CONSISTENT;"
         transaction: False
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns:
+            - VENDOR_ID
+            - TPEP_PICKUP_DATETIME
+            - PICKUP_LONGITUDE
+            - PICKUP_LATITUDE
+      - dbt_utils.expression_is_true:
+          expression: 'TPEP_DROPOFF_DATETIME > TPEP_PICKUP_DATETIME'
+          description: 'Dropoff time should be after pickup time'
     columns:
       - name: VENDOR_ID
         tests:
-          - dbt_utils.not_accepted_values:
-                values: [ 'test_vendor_id']
+          - not_null
       - name: TPEP_PICKUP_DATETIME
+        tests:
+          - not_null
       - name: TPEP_DROPOFF_DATETIME
       - name: PASSENGER_COUNT
       - name: TRIP_DISTANCE
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: '> 0'
       - name: PICKUP_LONGITUDE
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: '> 0'
       - name: PICKUP_LATITUDE
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: '> 0'
       - name: RATECODE_ID
       - name: STORE_AND_FWD_FLAG
       - name: DROPOFF_LONGITUDE
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: '> 0'
       - name: DROPOFF_LATITUDE
+        tests:
+          - dbt_utils.expression_is_true:
+              expression: '> 0'
       - name: PAYMENT_TYPE
       - name: PAYMENT_TYPE_NAME
       - name: FARE_AMOUNT

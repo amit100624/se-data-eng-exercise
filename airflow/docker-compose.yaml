@@ -77,7 +77,7 @@ x-airflow-common:
     - ${AIRFLOW_PROJ_DIR:-.}/logs:/opt/airflow/logs
     - ${AIRFLOW_PROJ_DIR:-.}/config:/opt/airflow/config
     - ${AIRFLOW_PROJ_DIR:-.}/plugins:/opt/airflow/plugins
-    - ${AIRFLOW_PROJ_DIR:-.}/../../snowflake/keys:/usr/local/airflow/snowflake/keys
+    - ${AIRFLOW_PROJ_DIR:-.}/../../snowflake/keys:/usr/local/snowflake/keys
     - ${AIRFLOW_PROJ_DIR:-.}/./dbt_env:/usr/local/airflow/dbt/dbt_env
     - ${AIRFLOW_PROJ_DIR:-.}/./dbt_taxi_trips:/usr/local/airflow/dbt/taxi_trips
   user: "${AIRFLOW_UID:-50000}:0"
