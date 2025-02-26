@@ -1,3 +1,11 @@
+{{
+    config(
+        materialized = 'incremental',
+        unique_key = ['VENDOR_ID', 'TPEP_PICKUP_DATETIME', 'PICKUP_LONGITUDE', 'PICKUP_LATITUDE'],
+        on_schema_change = 'sync_all_columns',
+        incremental_strategy = 'merge'
+    )
+}}
 SELECT
     VENDOR_NAME AS VENDOR_ID,
     TPEP_PICKUP_DATETIME::TIMESTAMP_NTZ AS TPEP_PICKUP_DATETIME,
@@ -21,5 +29,12 @@ SELECT
     TOTAL_AMOUNT::NUMBER(10,2) AS TOTAL_AMOUNT,
     TRIP_DURATION_MINUTES::NUMBER(4,0) AS TRIP_DURATION_MINUTES,
     TRIP_SPEED_MPH::NUMBER(5,2) AS TRIP_SPEED_MPH,
-    CREATED_TIMESTAMP
+    CREATED_TIMESTAMP::TIMESTAMP_NTZ(9) AS CREATED_TIMESTAMP
 FROM {{ source('taxi_trips', 'taxi_trips_raw') }}
+
+{% if is_incremental() %}
+WHERE CREATED_TIMESTAMP > (
+    SELECT COALESCE(MAX(CREATED_TIMESTAMP),'2000-01-01')
+    FROM {{ source('taxi_trips', 'taxi_trips_consistent') }}
+)
+{% endif %}
