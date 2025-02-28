@@ -1,0 +1,66 @@
+unit_tests:
+  - name: test_stg_taxi_trips_filters_data_with_mandatory_fields_nulls
+    description: "Test if the model filters out data which have all mandatory fields as null"
+    model: stg_taxi_trips_consistent
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: source('taxi_trips', 'taxi_trips_raw')
+        rows:
+          - VENDOR_NAME: null
+            TPEP_PICKUP_DATETIME: null
+            TPEP_DROPOFF_DATETIME: null
+            TRIP_DISTANCE: '1.11'
+            PICKUP_LONGITUDE: null
+            PICKUP_LATITUDE: null
+            DROPOFF_LONGITUDE: '-73.98184204101562'
+            DROPOFF_LATITUDE: '40.73240661621093'
+            CREATED_TIMESTAMP: '2025-01-01 11:00:00'
+          - VENDOR_NAME: '122'
+            TPEP_PICKUP_DATETIME: '2016-01-02 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-02 10:00:00'
+            TRIP_DISTANCE: '1.12'
+            PICKUP_LONGITUDE: '0'
+            PICKUP_LATITUDE: '0'
+            DROPOFF_LONGITUDE: '-73.98184204101562'
+            DROPOFF_LATITUDE: '40.73240661621093'
+            CREATED_TIMESTAMP: '2025-01-01 11:00:00'
+          - VENDOR_NAME: '123'
+            TPEP_PICKUP_DATETIME: '2016-01-03 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-03 11:00:00'
+            TRIP_DISTANCE: '1.13'
+            PICKUP_LONGITUDE: '-73.99037170410156'
+            PICKUP_LATITUDE: '40.73469543457031'
+            DROPOFF_LONGITUDE: null
+            DROPOFF_LATITUDE: null
+            CREATED_TIMESTAMP: '2025-01-01 20:00:00'
+          - VENDOR_NAME: '124'
+            TPEP_PICKUP_DATETIME: '2016-01-04 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-04 11:00:00'
+            TRIP_DISTANCE: '1.14'
+            PICKUP_LONGITUDE: '-73.99037170410156'
+            PICKUP_LATITUDE: '40.73469543457031'
+            DROPOFF_LONGITUDE: '0'
+            DROPOFF_LATITUDE: '0'
+            CREATED_TIMESTAMP: '2025-01-01 20:00:00'
+          - VENDOR_NAME: '125'
+            TPEP_PICKUP_DATETIME: '2016-01-05 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-05 11:00:00'
+            TRIP_DISTANCE: '1.15'
+            PICKUP_LONGITUDE: '-73.99037170410156'
+            PICKUP_LATITUDE: '40.73469543457031'
+            DROPOFF_LONGITUDE: '-73.98184204101562'
+            DROPOFF_LATITUDE: '40.73240661621093'
+            CREATED_TIMESTAMP: '2025-01-01 20:00:00'
+    expect:
+      rows:
+        - VENDOR_ID: '125'
+          TPEP_PICKUP_DATETIME: '2016-01-05 10:00:00'
+          TPEP_DROPOFF_DATETIME: '2016-01-05 11:00:00'
+          TRIP_DISTANCE: 1.15
+          PICKUP_LONGITUDE: -73.99037170410156
+          PICKUP_LATITUDE: 40.73469543457031
+          DROPOFF_LONGITUDE: -73.98184204101562
+          DROPOFF_LATITUDE: 40.73240661621093
+          CREATED_TIMESTAMP: '2025-01-01 20:00:00'
