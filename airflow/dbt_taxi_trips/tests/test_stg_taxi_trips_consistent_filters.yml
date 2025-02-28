@@ -8,9 +8,18 @@ unit_tests:
     given:
       - input: source('taxi_trips', 'taxi_trips_raw')
         rows:
-          - VENDOR_NAME: null
+          - VENDOR_NAME: '120'
             TPEP_PICKUP_DATETIME: null
             TPEP_DROPOFF_DATETIME: null
+            TRIP_DISTANCE: '1.10'
+            PICKUP_LONGITUDE: '-73.99037170410156'
+            PICKUP_LATITUDE: null
+            DROPOFF_LONGITUDE: '-73.98184204101562'
+            DROPOFF_LATITUDE: '40.73240661621093'
+            CREATED_TIMESTAMP: '2025-01-01 11:00:00'
+          - VENDOR_NAME: '121'
+            TPEP_PICKUP_DATETIME: '2016-01-01 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-01 11:00:00'
             TRIP_DISTANCE: '1.11'
             PICKUP_LONGITUDE: null
             PICKUP_LATITUDE: null
@@ -64,3 +73,33 @@ unit_tests:
           DROPOFF_LONGITUDE: -73.98184204101562
           DROPOFF_LATITUDE: 40.73240661621093
           CREATED_TIMESTAMP: '2025-01-01 20:00:00'
+
+  - name: test_stg_taxi_maps_null_vendor_name_to_1
+    description: "Test if the model maps null VENDOR_NAME to 1"
+    model: stg_taxi_trips_consistent
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: source('taxi_trips', 'taxi_trips_raw')
+        rows:
+          - VENDOR_NAME: null
+            TPEP_PICKUP_DATETIME: '2016-01-01 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2016-01-01 11:00:00'
+            TRIP_DISTANCE: '1.11'
+            PICKUP_LONGITUDE: '-73.99037170410156'
+            PICKUP_LATITUDE: null
+            DROPOFF_LONGITUDE: '-73.98184204101562'
+            DROPOFF_LATITUDE: '40.73240661621093'
+            CREATED_TIMESTAMP: '2025-01-01 11:00:00'
+    expect:
+      rows:
+        - VENDOR_ID: '1'
+          TPEP_PICKUP_DATETIME: '2016-01-01 10:00:00'
+          TPEP_DROPOFF_DATETIME: '2016-01-01 11:00:00'
+          TRIP_DISTANCE: 1.11
+          PICKUP_LONGITUDE: -73.99037170410156
+          PICKUP_LATITUDE: null
+          DROPOFF_LONGITUDE: -73.98184204101562
+          DROPOFF_LATITUDE: 40.73240661621093
+          CREATED_TIMESTAMP: '2025-01-01 11:00:00'
