@@ -32,3 +32,6 @@ models:
   taxi_trips:
     # Config indicated by + and applies to all files under the model
     raw:
+
+vars:
+  default_date: '1900-01-01 00:00:00'
