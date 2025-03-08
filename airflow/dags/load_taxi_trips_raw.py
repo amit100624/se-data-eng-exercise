@@ -63,9 +63,9 @@ def load_and_transform_taxi_trips_raw():
     @task.bash
     def exec_dbt() -> str:
       print(f"Transforming raw data from {RAW_TABLE_NAME}...")
-      execute_dbt_test = f"cd {DBT_TAXI_TRIPS_PROJECT} && dbt test --select 'stg_taxi_trips_consistent,test_type:data'"
       execute_dbt_run = f"cd {DBT_TAXI_TRIPS_PROJECT} && dbt run --select stg_taxi_trips_consistent"
-      return f"{execute_dbt_test} && {execute_dbt_run}"
+      execute_dbt_test = f"cd {DBT_TAXI_TRIPS_PROJECT} && dbt test --select 'stg_taxi_trips_consistent,test_type:data'"
+      return f"{execute_dbt_run} && {execute_dbt_test}"
 
     @task
     def post_exec_dbt():

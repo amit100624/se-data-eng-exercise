@@ -42,6 +42,12 @@ models:
       - dbt_utils.expression_is_true:
           expression: 'TPEP_DROPOFF_DATETIME > TPEP_PICKUP_DATETIME'
           description: 'Dropoff time should be after pickup time'
+      - dbt_utils.expression_is_true:
+          expression: 'NOT (COALESCE(PICKUP_LATITUDE, 0) = 0 AND COALESCE(PICKUP_LONGITUDE, 0) = 0)'
+          description: 'Both PICKUP_LATITUDE and PICKUP_LONGITUDE should not be null or 0'
+      - dbt_utils.expression_is_true:
+          expression: 'NOT (COALESCE(DROPOFF_LATITUDE, 0) = 0 AND COALESCE(DROPOFF_LONGITUDE, 0) = 0)'
+          description: 'Both DROPOFF_LATITUDE and DROPOFF_LONGITUDE should not be null or 0'
     columns:
       - name: VENDOR_ID
         tests:
@@ -56,25 +62,11 @@ models:
           - dbt_utils.expression_is_true:
               expression: '> 0'
       - name: PICKUP_LONGITUDE
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: '> 0'
       - name: PICKUP_LATITUDE
-        tests:
-          - not_null
-          - dbt_utils.expression_is_true:
-              expression: '> 0'
       - name: RATECODE_ID
       - name: STORE_AND_FWD_FLAG
       - name: DROPOFF_LONGITUDE
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '> 0'
       - name: DROPOFF_LATITUDE
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '> 0'
       - name: PAYMENT_TYPE
       - name: PAYMENT_TYPE_NAME
       - name: FARE_AMOUNT
