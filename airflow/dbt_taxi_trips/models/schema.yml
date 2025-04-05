@@ -27,6 +27,11 @@ models:
     config:
       materialized: table
       tags: ['taxi_trips']
+  - name: dim_location
+    description: "Location dimension table"
+    config:
+      materialized: table
+      tags: ['taxi_trips']
   - name: taxi_trips_consistent
     description: "Taxi trips consistent cleansed data"
     config:

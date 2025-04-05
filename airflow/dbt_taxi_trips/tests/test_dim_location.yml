@@ -1,0 +1,26 @@
+unit_tests:
+  - name: test_dim_location
+    description: "Test vendor dimension table"
+    model: dim_location
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - PICKUP_LATITUDE: 40.741
+            PICKUP_LONGITUDE: -73.981
+            DROPOFF_LATITUDE: 40.732
+            DROPOFF_LONGITUDE: -73.981
+          - PICKUP_LATITUDE: 40.741
+            PICKUP_LONGITUDE: -73.981
+            DROPOFF_LATITUDE: 40.733
+            DROPOFF_LONGITUDE: -73.982
+    expect:
+      rows:
+        - LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+          LATITUDE: 40.741
+          LONGITUDE: -73.981
+        - LOCATION_ID: '88696f53761510104836d8f54ce643d7'
+          LATITUDE: 40.732
+          LONGITUDE: -73.981
+        - LOCATION_ID: 'a62f2f08db7ad24e84757146d72c5f78'
+          LATITUDE: 40.733
+          LONGITUDE: -73.982
