@@ -20,7 +20,6 @@ unit_tests:
             DROPOFF_LONGITUDE: '-73.98184204101562'
             DROPOFF_LATITUDE: '40.73240661621093'
             PAYMENT_TYPE: '2'
-            PAYMENT_TYPE_NAME: '7.5'
             FARE_AMOUNT: '0.5'
             EXTRA: '0.5'
             MTA_TAX: '0'
@@ -45,7 +44,6 @@ unit_tests:
           DROPOFF_LONGITUDE: -73.98184204101562
           DROPOFF_LATITUDE: 40.73240661621093
           PAYMENT_TYPE: 2
-          PAYMENT_TYPE_NAME: 7.5
           FARE_AMOUNT: 0.5
           EXTRA: 0.5
           MTA_TAX: 0

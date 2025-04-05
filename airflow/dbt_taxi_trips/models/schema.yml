@@ -68,7 +68,6 @@ models:
       - name: DROPOFF_LONGITUDE
       - name: DROPOFF_LATITUDE
       - name: PAYMENT_TYPE
-      - name: PAYMENT_TYPE_NAME
       - name: FARE_AMOUNT
       - name: EXTRA
       - name: MTA_TAX

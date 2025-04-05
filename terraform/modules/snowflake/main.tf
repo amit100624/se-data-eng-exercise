@@ -64,11 +64,6 @@ resource "snowflake_table" "taxi_trips_raw" {
   }
 
   column {
-    name = "PAYMENT_TYPE_NAME"
-    type = "STRING"
-  }
-
-  column {
     name = "FARE_AMOUNT"
     type = "STRING"
   }
