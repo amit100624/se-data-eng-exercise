@@ -1,0 +1,12 @@
+unit_tests:
+  - name: test_dim_vendor
+    description: "Test vendor dimension table"
+    model: dim_vendor
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - VENDOR_ID: 'Test Vendor'
+    expect:
+      rows:
+        - VENDOR_NAME: 'Test Vendor'
+          VENDOR_ID: '46f1a1a398cb3cd1cc0ebbc1c770dab6'

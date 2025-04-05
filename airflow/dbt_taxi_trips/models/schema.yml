@@ -22,6 +22,11 @@ sources:
       - name: taxi_trips_consistent
 
 models:
+  - name: dim_vendor
+    description: "Vendor dimension table"
+    config:
+      materialized: table
+      tags: ['taxi_trips']
   - name: taxi_trips_consistent
     description: "Taxi trips consistent cleansed data"
     config:
