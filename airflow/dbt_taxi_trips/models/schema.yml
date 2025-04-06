@@ -26,29 +26,34 @@ models:
     description: "Vendor dimension table"
     config:
       materialized: table
-      tags: ['taxi_trips']
+      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
   - name: dim_payment_type
     description: "Payment type dimension table"
     config:
       materialized: table
-      tags: ['taxi_trips']
+      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
+  - name: dim_date
+    description: "Date dimension table"
+    config:
+      materialized: table
+      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
   - name: dim_location
     description: "Location dimension table"
     config:
       materialized: table
-      tags: ['taxi_trips']
+      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
   - name: taxi_trips_consistent
     description: "Taxi trips consistent cleansed data"
     config:
       materialized: table
-      tags: ['taxi_trips']
+      tags: [ 'taxi_trips' ]
   - name: stg_taxi_trips_consistent
     description: "Taxi trips consistent stage data"
     config:
       pre_hook:
         sql: "TRUNCATE TABLE STG_TAXI_TRIPS_CONSISTENT;"
         transaction: False
-      tags: ['taxi_trips']
+      tags: [ 'taxi_trips' ]
     tests:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns:

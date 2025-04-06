@@ -1,0 +1,23 @@
+unit_tests:
+  - name: test_dim_date
+    description: "Test date dimension table"
+    model: dim_date
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - TPEP_PICKUP_DATETIME: '2025-04-08 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-08 11:00:00'
+          - TPEP_PICKUP_DATETIME: '2025-04-07 12:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-07 13:00:00'
+    expect:
+      rows:
+        - DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
+          YEAR: 2025
+          MONTH: 4
+          WEEK_OF_THE_YEAR: 15
+          DATE: '2025-04-08'
+        - DATE_ID: 'fbe949d839f3919224a973a4b1bd875e'
+          YEAR: 2025
+          MONTH: 4
+          WEEK_OF_THE_YEAR: 15
+          DATE: '2025-04-07'
