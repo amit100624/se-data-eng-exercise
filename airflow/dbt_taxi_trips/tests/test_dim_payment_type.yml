@@ -1,0 +1,33 @@
+unit_tests:
+  - name: test_dim_payment_type
+    description: "Test payment_type dimension table"
+    model: dim_payment_type
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - PAYMENT_TYPE: '1'
+          - PAYMENT_TYPE: '2'
+          - PAYMENT_TYPE: '3'
+          - PAYMENT_TYPE: '4'
+          - PAYMENT_TYPE: '5'
+          - PAYMENT_TYPE: '6'
+          - PAYMENT_TYPE: '7'
+          - PAYMENT_TYPE: ''
+    expect:
+      rows:
+        - PAYMENT_TYPE_ID: 'c4ca4238a0b923820dcc509a6f75849b'
+          PAYMENT_TYPE_NAME: 'Credit card'
+        - PAYMENT_TYPE_ID: 'c81e728d9d4c2f636f067f89cc14862c'
+          PAYMENT_TYPE_NAME: 'Cash'
+        - PAYMENT_TYPE_ID: 'eccbc87e4b5ce2fe28308fd9f2a7baf3'
+          PAYMENT_TYPE_NAME: 'No charge'
+        - PAYMENT_TYPE_ID: 'a87ff679a2f3e71d9181a67b7542122c'
+          PAYMENT_TYPE_NAME: 'Dispute'
+        - PAYMENT_TYPE_ID: 'e4da3b7fbbce2345d7772b0674a318d5'
+          PAYMENT_TYPE_NAME: 'Unknown'
+        - PAYMENT_TYPE_ID: '1679091c5a880faf6fb5e6087eb1b2dc'
+          PAYMENT_TYPE_NAME: 'Voided trip'
+        - PAYMENT_TYPE_ID: '8f14e45fceea167a5a36dedd4bea2543'
+          PAYMENT_TYPE_NAME: 'N/A'
+        - PAYMENT_TYPE_ID: 'f14cc5cdce0420f4a5a6b6d9d7b85f39'
+          PAYMENT_TYPE_NAME: 'N/A'

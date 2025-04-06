@@ -27,6 +27,11 @@ models:
     config:
       materialized: table
       tags: ['taxi_trips']
+  - name: dim_payment_type
+    description: "Payment type dimension table"
+    config:
+      materialized: table
+      tags: ['taxi_trips']
   - name: dim_location
     description: "Location dimension table"
     config:
