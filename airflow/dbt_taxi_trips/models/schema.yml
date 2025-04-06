@@ -26,22 +26,27 @@ models:
     description: "Vendor dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_fact_dim' ]
   - name: dim_payment_type
     description: "Payment type dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_fact_dim' ]
   - name: dim_date
     description: "Date dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_fact_dim' ]
   - name: dim_location
     description: "Location dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips', 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_fact_dim' ]
+  - name: fact_taxi_trips
+    description: "Taxi trips fact table"
+    config:
+      materialized: table
+      tags: [ 'taxi_trips_fact_dim' ]
   - name: taxi_trips_consistent
     description: "Taxi trips consistent cleansed data"
     config:
@@ -77,26 +82,7 @@ models:
       - name: TPEP_PICKUP_DATETIME
         tests:
           - not_null
-      - name: TPEP_DROPOFF_DATETIME
-      - name: PASSENGER_COUNT
       - name: TRIP_DISTANCE
         tests:
           - dbt_utils.expression_is_true:
               expression: '> 0'
-      - name: PICKUP_LONGITUDE
-      - name: PICKUP_LATITUDE
-      - name: RATECODE_ID
-      - name: STORE_AND_FWD_FLAG
-      - name: DROPOFF_LONGITUDE
-      - name: DROPOFF_LATITUDE
-      - name: PAYMENT_TYPE
-      - name: FARE_AMOUNT
-      - name: EXTRA
-      - name: MTA_TAX
-      - name: TIP_AMOUNT
-      - name: TOLLS_AMOUNT
-      - name: IMPROVEMENT_SURCHARGE
-      - name: TOTAL_AMOUNT
-      - name: TRIP_DURATION_MINUTES
-      - name: TRIP_SPEED_MPH
-      - name: CREATED_TIMESTAMP

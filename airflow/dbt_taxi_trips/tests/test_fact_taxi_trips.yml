@@ -1,0 +1,30 @@
+unit_tests:
+  - name: test_fact_taxi_trips_loads_data_incrementally
+    description: "Test if the model loads data incrementally considering max CREATED_TIMESTAMP"
+    model: fact_taxi_trips
+    overrides:
+      macros:
+        is_incremental: true
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - VENDOR_ID: '1'
+            TPEP_PICKUP_DATETIME: '2016-01-01 10:00:00'
+            TRIP_DISTANCE: 1.10
+            PICKUP_LATITUDE: 40.741
+            PICKUP_LONGITUDE: -73.981
+            CREATED_TIMESTAMP: '2025-04-01 10:00:00'
+      - input: this
+        rows:
+          - VENDOR_ID: 'c4ca4238a0b923820dcc509a6f75849b'
+            PICKUP_DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
+            PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+            TRIP_DISTANCE: 1.11
+            UPDATED_TS: '2025-04-01 09:00:00'
+    expect:
+      rows:
+        - VENDOR_ID: 'c4ca4238a0b923820dcc509a6f75849b'
+          PICKUP_DATE_ID: '6598201a15496d7b4a2c8ac8bdf7f2a6'
+          PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+          TRIP_DISTANCE: 1.10
+          UPDATED_TS: '2025-04-01 10:00:00'
