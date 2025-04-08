@@ -1,6 +1,6 @@
 unit_tests:
   - name: test_fact_taxi_trips_loads_data_incrementally
-    description: "Test if the model loads data incrementally considering max CREATED_TIMESTAMP"
+    description: "Test if the model loads data incrementally considering max UPDATED_TS"
     model: fact_taxi_trips
     overrides:
       macros:
@@ -28,3 +28,24 @@ unit_tests:
           PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
           TRIP_DISTANCE: 1.10
           UPDATED_TS: '2025-04-01 10:00:00'
+
+  - name: test_fact_taxi_trips_loads_computed_fields
+    description: "Test if the model computes TRIP_DURATION_MINUTES and TRIP_SPEED_MPH fields and loads them"
+    model: fact_taxi_trips
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - VENDOR_ID: '1'
+            TPEP_PICKUP_DATETIME: '2025-04-01 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-01 11:00:00'
+            TRIP_DISTANCE: 60
+            CREATED_TIMESTAMP: '2025-04-05 10:00:00'
+    expect:
+      rows:
+        - TRIP_DISTANCE: 60
+          TRIP_DURATION_MINUTES: 60
+          TRIP_SPEED_MPH: 60
+          UPDATED_TS: '2025-04-05 10:00:00'
