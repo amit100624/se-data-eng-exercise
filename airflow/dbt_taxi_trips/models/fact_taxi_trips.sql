@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'incremental',
-        unique_key = ['VENDOR_ID', 'PICKUP_DATE_ID', 'PICKUP_LOCATION_ID'],
+        unique_key = ['TRIP_ID'],
         on_schema_change = 'sync_all_columns',
         incremental_strategy = 'merge'
     )
@@ -9,6 +9,7 @@
 
 WITH FACT_TAXI_TRIPS AS (
     SELECT
+        {{ dbt_utils.generate_surrogate_key(['VENDOR_ID', 'TPEP_PICKUP_DATETIME', 'PICKUP_LONGITUDE', 'PICKUP_LATITUDE']) }} AS TRIP_ID,
         {{ dbt_utils.generate_surrogate_key(['VENDOR_ID']) }} AS VENDOR_ID,
         {{ dbt_utils.generate_surrogate_key(['PAYMENT_TYPE']) }} AS PAYMENT_TYPE_ID,
         {{ dbt_utils.generate_surrogate_key(['TPEP_PICKUP_DATETIME']) }} AS PICKUP_DATE_ID,
@@ -30,6 +31,7 @@ WITH FACT_TAXI_TRIPS AS (
 )
 
 SELECT
+    TRIP_ID,
     VENDOR_ID,
     PAYMENT_TYPE_ID,
     PICKUP_DATE_ID,
@@ -56,6 +58,6 @@ FROM FACT_TAXI_TRIPS
 {% if is_incremental() %}
 WHERE UPDATED_TS > (
     SELECT COALESCE(MAX(UPDATED_TS), '{{ var('default_date') }}')
-    FROM {{ ref('fact_taxi_trips') }}
+    FROM {{ this }}
     )
 {% endif %}
