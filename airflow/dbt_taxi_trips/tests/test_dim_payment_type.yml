@@ -2,6 +2,9 @@ unit_tests:
   - name: test_dim_payment_type
     description: "Test payment_type dimension table"
     model: dim_payment_type
+    overrides:
+      macros:
+        is_incremental: false
     given:
       - input: ref('taxi_trips_consistent')
         rows:
@@ -31,3 +34,35 @@ unit_tests:
           PAYMENT_TYPE_NAME: 'N/A'
         - PAYMENT_TYPE_ID: 'f14cc5cdce0420f4a5a6b6d9d7b85f39'
           PAYMENT_TYPE_NAME: 'N/A'
+
+  - name: test_dim_payment_type_loads_data_incrementally
+    description: "Test payment_type dimension table loads data incrementally"
+    model: dim_payment_type
+    overrides:
+      macros:
+        is_incremental: true
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - PAYMENT_TYPE: '1'
+            CREATED_TIMESTAMP: '2025-04-14 08:00:00'
+          - PAYMENT_TYPE: '2'
+            CREATED_TIMESTAMP: '2025-04-14 09:00:00'
+          - PAYMENT_TYPE: '3'
+            CREATED_TIMESTAMP: '2025-04-14 11:00:00'
+      - input: this
+        rows:
+          - PAYMENT_TYPE_ID: 'c4ca4238a0b923820dcc509a6f75849b'
+            PAYMENT_TYPE_NAME: 'Credit card'
+            UPDATED_TS: '2025-04-14 10:00:00'
+          - PAYMENT_TYPE_ID: 'c81e728d9d4c2f636f067f89cc14862c'
+            PAYMENT_TYPE_NAME: 'Cash'
+            UPDATED_TS: '2025-04-14 10:00:00'
+          - PAYMENT_TYPE_ID: 'eccbc87e4b5ce2fe28308fd9f2a7baf3'
+            PAYMENT_TYPE_NAME: 'No charge'
+            UPDATED_TS: '2025-04-14 10:00:00'
+    expect:
+      rows:
+        - PAYMENT_TYPE_ID: 'eccbc87e4b5ce2fe28308fd9f2a7baf3'
+          PAYMENT_TYPE_NAME: 'No charge'
+          UPDATED_TS: '2025-04-14 11:00:00'

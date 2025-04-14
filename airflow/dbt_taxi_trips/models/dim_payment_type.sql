@@ -8,5 +8,12 @@ SELECT
         WHEN PAYMENT_TYPE = '5' THEN 'Unknown'
         WHEN PAYMENT_TYPE = '6' THEN 'Voided trip'
         ELSE 'N/A'
-    END AS PAYMENT_TYPE_NAME
+    END AS PAYMENT_TYPE_NAME,
+    CREATED_TIMESTAMP AS UPDATED_TS
 FROM {{ ref('taxi_trips_consistent') }}
+{% if is_incremental() %}
+WHERE UPDATED_TS > (
+    SELECT COALESCE(MAX(UPDATED_TS), '{{ var('default_date') }}')
+    FROM {{ this }}
+)
+{% endif %}
