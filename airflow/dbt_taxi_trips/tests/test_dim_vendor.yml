@@ -2,6 +2,9 @@ unit_tests:
   - name: test_dim_vendor
     description: "Test vendor dimension table"
     model: dim_vendor
+    overrides:
+      macros:
+        is_incremental: false
     given:
       - input: ref('taxi_trips_consistent')
         rows:
@@ -19,3 +22,30 @@ unit_tests:
           VENDOR_NAME: 'N/A'
         - VENDOR_ID: 'eccbc87e4b5ce2fe28308fd9f2a7baf3'
           VENDOR_NAME: 'N/A'
+
+  - name: test_dim_vendor_loads_data_incrementally
+    description: "Test vendor dimension table loads data incrementally"
+    model: dim_vendor
+    overrides:
+      macros:
+        is_incremental: true
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - VENDOR_ID: '1'
+            CREATED_TIMESTAMP: '2025-04-14 08:00:00'
+          - VENDOR_ID: '2'
+            CREATED_TIMESTAMP: '2025-04-14 11:00:00'
+      - input: this
+        rows:
+          - VENDOR_ID: 'c4ca4238a0b923820dcc509a6f75849b'
+            VENDOR_NAME: 'Creative Mobile Technologies, LLC'
+            UPDATED_TS: '2025-04-14 09:00:00'
+          - VENDOR_ID: 'c81e728d9d4c2f636f067f89cc14862c'
+            VENDOR_NAME: 'VeriFone Inc'
+            UPDATED_TS: '2025-04-14 09:00:00'
+    expect:
+      rows:
+        - VENDOR_ID: 'c81e728d9d4c2f636f067f89cc14862c'
+          VENDOR_NAME: 'VeriFone Inc'
+          UPDATED_TS: '2025-04-14 11:00:00'
