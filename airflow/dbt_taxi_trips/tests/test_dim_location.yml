@@ -1,7 +1,10 @@
 unit_tests:
-  - name: test_dim_location
-    description: "Test vendor dimension table"
+  - name: test_dim_location_loads_unique_locations
+    description: "Test location dimension table loads unique locations"
     model: dim_location
+    overrides:
+      macros:
+        is_incremental: false
     given:
       - input: ref('taxi_trips_consistent')
         rows:
@@ -9,18 +12,71 @@ unit_tests:
             PICKUP_LONGITUDE: -73.981
             DROPOFF_LATITUDE: 40.732
             DROPOFF_LONGITUDE: -73.981
+            CREATED_TIMESTAMP: '2025-04-05 10:00:00'
           - PICKUP_LATITUDE: 40.741
             PICKUP_LONGITUDE: -73.981
             DROPOFF_LATITUDE: 40.733
             DROPOFF_LONGITUDE: -73.982
+            CREATED_TIMESTAMP: '2025-04-05 11:00:00'
+    expect:
+      rows:
+        - LOCATION_ID: '88696f53761510104836d8f54ce643d7'
+          LATITUDE: 40.732
+          LONGITUDE: -73.981
+          UPDATED_TS: '2025-04-05 10:00:00'
+        - LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+          LATITUDE: 40.741
+          LONGITUDE: -73.981
+          UPDATED_TS: '2025-04-05 11:00:00'
+        - LOCATION_ID: 'a62f2f08db7ad24e84757146d72c5f78'
+          LATITUDE: 40.733
+          LONGITUDE: -73.982
+          UPDATED_TS: '2025-04-05 11:00:00'
+
+  - name: test_dim_location_loads_data_incrementally
+    description: "Test location dimension table loads data incrementally"
+    model: dim_location
+    overrides:
+      macros:
+        is_incremental: true
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - PICKUP_LATITUDE: 40.741
+            PICKUP_LONGITUDE: -73.981
+            DROPOFF_LATITUDE: 40.731
+            DROPOFF_LONGITUDE: -73.981
+            CREATED_TIMESTAMP: '2025-04-05 10:00:00'
+          - PICKUP_LATITUDE: 40.742
+            PICKUP_LONGITUDE: -73.982
+            DROPOFF_LATITUDE: 40.732
+            DROPOFF_LONGITUDE: -73.982
+            CREATED_TIMESTAMP: '2025-04-05 08:00:00'
+      - input: this
+        rows:
+          - LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+            LATITUDE: 40.741
+            LONGITUDE: -73.981
+            UPDATED_TS: '2025-04-05 09:00:00'
+          - LOCATION_ID: '88696f53761510104836d8f54ce643d7'
+            LATITUDE: 40.731
+            LONGITUDE: -73.981
+            UPDATED_TS: '2025-04-05 09:00:00'
+          - LOCATION_ID: 'a62f2f08db7ad24e84757146d72c5f78'
+            LATITUDE: 40.742
+            LONGITUDE: -73.982
+            UPDATED_TS: '2025-04-05 09:00:00'
+          - LOCATION_ID: 'a62f2f08db7ad24e84757146d72c5f78'
+            LATITUDE: 40.732
+            LONGITUDE: -73.982
+            UPDATED_TS: '2025-04-05 09:00:00'
     expect:
       rows:
         - LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
           LATITUDE: 40.741
           LONGITUDE: -73.981
-        - LOCATION_ID: '88696f53761510104836d8f54ce643d7'
-          LATITUDE: 40.732
+          UPDATED_TS: '2025-04-05 10:00:00'
+        - LOCATION_ID: 'a4de34b2caa4a9b7cdd46597dee83680'
+          LATITUDE: 40.731
           LONGITUDE: -73.981
-        - LOCATION_ID: 'a62f2f08db7ad24e84757146d72c5f78'
-          LATITUDE: 40.733
-          LONGITUDE: -73.982
+          UPDATED_TS: '2025-04-05 10:00:00'
