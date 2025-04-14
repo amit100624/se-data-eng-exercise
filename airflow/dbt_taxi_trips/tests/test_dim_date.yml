@@ -1,14 +1,22 @@
 unit_tests:
-  - name: test_dim_date
-    description: "Test date dimension table"
+  - name: test_dim_date_loads_unique_dates
+    description: "Test date dimension table loads unique dates"
     model: dim_date
+    overrides:
+      macros:
+        is_incremental: false
     given:
       - input: ref('taxi_trips_consistent')
         rows:
           - TPEP_PICKUP_DATETIME: '2025-04-08 10:00:00'
             TPEP_DROPOFF_DATETIME: '2025-04-08 11:00:00'
+            CREATED_TIMESTAMP: '2025-04-10 11:00:00'
           - TPEP_PICKUP_DATETIME: '2025-04-07 12:00:00'
             TPEP_DROPOFF_DATETIME: '2025-04-07 13:00:00'
+            CREATED_TIMESTAMP: '2025-04-10 11:00:00'
+          - TPEP_PICKUP_DATETIME: '2025-04-07 09:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-07 10:00:00'
+            CREATED_TIMESTAMP: '2025-04-10 10:00:00'
     expect:
       rows:
         - DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
@@ -16,8 +24,51 @@ unit_tests:
           MONTH: 4
           WEEK_OF_THE_YEAR: 15
           DATE: '2025-04-08'
+          UPDATED_TS: '2025-04-10 11:00:00'
         - DATE_ID: 'fbe949d839f3919224a973a4b1bd875e'
           YEAR: 2025
           MONTH: 4
           WEEK_OF_THE_YEAR: 15
           DATE: '2025-04-07'
+          UPDATED_TS: '2025-04-10 11:00:00'
+
+  - name: test_dim_date_loads_data_incrementally
+    description: "Test date dimension table loads data incrementally"
+    model: dim_date
+    overrides:
+      macros:
+        is_incremental: true
+    given:
+      - input: ref('taxi_trips_consistent')
+        rows:
+          - TPEP_PICKUP_DATETIME: '2025-04-08 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-08 11:00:00'
+            CREATED_TIMESTAMP: '2025-04-10 11:00:00'
+          - TPEP_PICKUP_DATETIME: '2025-04-07 12:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-07 13:00:00'
+            CREATED_TIMESTAMP: '2025-04-10 09:00:00'
+          - TPEP_PICKUP_DATETIME: '2025-04-07 09:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-07 10:00:00'
+            CREATED_TIMESTAMP: '2025-04-10 08:00:00'
+      - input: this
+        rows:
+          - DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
+            YEAR: 2025
+            MONTH: 4
+            WEEK_OF_THE_YEAR: 15
+            DATE: '2025-04-08'
+            UPDATED_TS: '2025-04-10 09:00:00'
+          - DATE_ID: 'fbe949d839f3919224a973a4b1bd875e'
+            YEAR: 2025
+            MONTH: 4
+            WEEK_OF_THE_YEAR: 15
+            DATE: '2025-04-07'
+            UPDATED_TS: '2025-04-10 10:00:00'
+    expect:
+      rows:
+        - DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
+          YEAR: 2025
+          MONTH: 4
+          WEEK_OF_THE_YEAR: 15
+          DATE: '2025-04-08'
+          UPDATED_TS: '2025-04-10 11:00:00'
