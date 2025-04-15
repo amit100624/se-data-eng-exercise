@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized = 'incremental',
+        unique_key = ['LOCATION_ID']
+    )
+}}
+
 WITH TAXI_TRIPS_LOCATIONS AS (
     SELECT
         {{ dbt_utils.generate_surrogate_key(['PICKUP_LATITUDE', 'PICKUP_LONGITUDE']) }} AS LOCATION_ID,

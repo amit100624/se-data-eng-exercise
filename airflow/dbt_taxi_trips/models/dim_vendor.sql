@@ -1,4 +1,11 @@
-SELECT
+{{
+    config(
+        materialized = 'incremental',
+        unique_key = ['VENDOR_ID']
+    )
+}}
+
+SELECT DISTINCT
     {{ dbt_utils.generate_surrogate_key(['VENDOR_ID']) }} AS VENDOR_ID,
     CASE
         WHEN VENDOR_ID = '1' THEN 'Creative Mobile Technologies, LLC'

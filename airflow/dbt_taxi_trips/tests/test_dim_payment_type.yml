@@ -1,6 +1,6 @@
 unit_tests:
-  - name: test_dim_payment_type
-    description: "Test payment_type dimension table"
+  - name: test_dim_payment_type_loads_unique_data
+    description: "Test payment_type dimension table loads unique data"
     model: dim_payment_type
     overrides:
       macros:
@@ -9,10 +9,13 @@ unit_tests:
       - input: ref('taxi_trips_consistent')
         rows:
           - PAYMENT_TYPE: '1'
+          - PAYMENT_TYPE: '1'
           - PAYMENT_TYPE: '2'
+          - PAYMENT_TYPE: '3'
           - PAYMENT_TYPE: '3'
           - PAYMENT_TYPE: '4'
           - PAYMENT_TYPE: '5'
+          - PAYMENT_TYPE: '6'
           - PAYMENT_TYPE: '6'
           - PAYMENT_TYPE: '7'
           - PAYMENT_TYPE: ''

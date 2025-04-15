@@ -1,4 +1,11 @@
-SELECT
+{{
+    config(
+        materialized = 'incremental',
+        unique_key = ['PAYMENT_TYPE_ID']
+    )
+}}
+
+SELECT DISTINCT
     {{ dbt_utils.generate_surrogate_key(['PAYMENT_TYPE']) }} AS PAYMENT_TYPE_ID,
     CASE
         WHEN PAYMENT_TYPE = '1' THEN 'Credit card'
