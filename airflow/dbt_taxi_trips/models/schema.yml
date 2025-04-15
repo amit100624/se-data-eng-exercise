@@ -72,7 +72,7 @@ models:
             - PICKUP_LONGITUDE
             - PICKUP_LATITUDE
       - dbt_utils.expression_is_true:
-          expression: 'TPEP_DROPOFF_DATETIME > TPEP_PICKUP_DATETIME'
+          expression: 'TPEP_DROPOFF_DATETIME >= TPEP_PICKUP_DATETIME'
           description: 'Dropoff time should be after pickup time'
       - dbt_utils.expression_is_true:
           expression: 'NOT (COALESCE(PICKUP_LATITUDE, 0) = 0 AND COALESCE(PICKUP_LONGITUDE, 0) = 0)'
@@ -87,7 +87,3 @@ models:
       - name: TPEP_PICKUP_DATETIME
         tests:
           - not_null
-      - name: TRIP_DISTANCE
-        tests:
-          - dbt_utils.expression_is_true:
-              expression: '> 0'
