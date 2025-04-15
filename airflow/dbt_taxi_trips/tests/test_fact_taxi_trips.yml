@@ -9,39 +9,39 @@ unit_tests:
       - input: ref('taxi_trips_consistent')
         rows:
           - VENDOR_ID: '1'
-            TPEP_PICKUP_DATETIME: '2025-04-01 10:00:00'
+            TPEP_PICKUP_DATETIME: '2025-04-07 10:00:00'
             PICKUP_LATITUDE: 40.741
             PICKUP_LONGITUDE: -73.981
             TRIP_DISTANCE: 1.11
-            CREATED_TIMESTAMP: '2025-04-05 10:00:00'
+            CREATED_TIMESTAMP: '2025-04-08 10:00:00'
           - VENDOR_ID: '2'
-            TPEP_PICKUP_DATETIME: '2025-04-01 10:00:00'
+            TPEP_PICKUP_DATETIME: '2025-04-07 10:00:00'
             PICKUP_LATITUDE: 40.741
             PICKUP_LONGITUDE: -73.981
             TRIP_DISTANCE: 1.21
-            CREATED_TIMESTAMP: '2025-04-05 08:00:00'
+            CREATED_TIMESTAMP: '2025-04-08 08:00:00'
       - input: this
         rows:
-          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc355'
+          - TRIP_ID: '205036d9910de05389e0aea457eab8d3'
             VENDOR_ID: 'c4ca4238a0b923820dcc509a6f75849b'
-            PICKUP_DATE_ID: '52b2e71a53a7118681086442acbcf007'
+            PICKUP_DATE_ID: 'fbe949d839f3919224a973a4b1bd875e'
             PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
             TRIP_DISTANCE: 1.10
-            UPDATED_TS: '2025-04-05 09:00:00'
-          - TRIP_ID: '15d59242ff0e9e9c5011919944255c58'
+            UPDATED_TS: '2025-04-08 09:00:00'
+          - TRIP_ID: 'a2e976cf9287ecc2153e5bc89a437cc5'
             VENDOR_ID: 'c81e728d9d4c2f636f067f89cc14862c'
-            PICKUP_DATE_ID: '52b2e71a53a7118681086442acbcf007'
+            PICKUP_DATE_ID: 'fbe949d839f3919224a973a4b1bd875e'
             PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
             TRIP_DISTANCE: 1.20
-            UPDATED_TS: '2025-04-05 09:00:00'
+            UPDATED_TS: '2025-04-08 09:00:00'
     expect:
       rows:
-        - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc355'
+        - TRIP_ID: '205036d9910de05389e0aea457eab8d3'
           VENDOR_ID: 'c4ca4238a0b923820dcc509a6f75849b'
-          PICKUP_DATE_ID: '52b2e71a53a7118681086442acbcf007'
+          PICKUP_DATE_ID: 'fbe949d839f3919224a973a4b1bd875e'
           PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
           TRIP_DISTANCE: 1.11
-          UPDATED_TS: '2025-04-05 10:00:00'
+          UPDATED_TS: '2025-04-08 10:00:00'
 
   - name: test_fact_taxi_trips_loads_computed_fields
     description: "Test if the model computes TRIP_DURATION_MINUTES and TRIP_SPEED_MPH fields and loads them"
@@ -53,17 +53,19 @@ unit_tests:
       - input: ref('taxi_trips_consistent')
         rows:
           - VENDOR_ID: '1'
-            TPEP_PICKUP_DATETIME: '2025-04-01 10:00:00'
-            TPEP_DROPOFF_DATETIME: '2025-04-01 11:00:00'
+            TPEP_PICKUP_DATETIME: '2025-04-08 10:00:00'
+            TPEP_DROPOFF_DATETIME: '2025-04-08 11:00:00'
             PICKUP_LATITUDE: 40.741
             PICKUP_LONGITUDE: -73.981
             TRIP_DISTANCE: 60
-            CREATED_TIMESTAMP: '2025-04-05 10:00:00'
+            CREATED_TIMESTAMP: '2025-04-09 10:00:00'
     expect:
       rows:
-        - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc355'
+        - TRIP_ID: '1a0efdcf14bdecb979d9ace72a6099ee'
           PICKUP_LOCATION_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+          PICKUP_DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
+          DROPOFF_DATE_ID: '7d98e9c7131fca0933707763de4cba8f'
           TRIP_DISTANCE: 60
           TRIP_DURATION_MINUTES: 60
           TRIP_SPEED_MPH: 60
-          UPDATED_TS: '2025-04-05 10:00:00'
+          UPDATED_TS: '2025-04-09 10:00:00'

@@ -1,3 +1,10 @@
+{{
+    config(
+        materialized = 'incremental',
+        unique_key = ['DATE_ID']
+    )
+}}
+
 WITH TAXI_TRIPS_DATES AS (
     SELECT
         DATE(TPEP_PICKUP_DATETIME)::TIMESTAMP_NTZ AS DATE,
@@ -23,7 +30,7 @@ SELECT
     YEAR(DATE)::NUMBER(4,0) AS YEAR,
     MONTH(DATE)::NUMBER(2,0) AS MONTH,
     WEEK(DATE)::NUMBER(2,0) AS WEEK_OF_THE_YEAR,
-    DATE(DATE)::TIMESTAMP_NTZ AS DATE,
+    DATE,
     UPDATED_TS
 FROM (
     {{ dbt_utils.deduplicate(
