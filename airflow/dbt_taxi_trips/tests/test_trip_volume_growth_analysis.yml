@@ -1,0 +1,57 @@
+unit_tests:
+
+  - name: test_trip_volume_growth_analysis
+    description: "Test trip_volume_growth_analysis view"
+    model: trip_volume_growth_analysis
+    overrides:
+      macros:
+        is_incremental: false
+    given:
+      - input: ref('fact_taxi_trips')
+        rows:
+          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc311'
+            PICKUP_DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc321'
+            PICKUP_DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b2'
+          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc322'
+            PICKUP_DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b2'
+          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc323'
+            PICKUP_DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b2'
+          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc331'
+            PICKUP_DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b3'
+          - TRIP_ID: '2cb7b4ef695d63077138b7846f7cc332'
+            PICKUP_DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b3'
+      - input: ref('dim_date')
+        rows:
+          - DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b1'
+            YEAR: 2025
+            MONTH: 1
+            WEEK_OF_THE_YEAR: 1
+          - DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b2'
+            YEAR: 2025
+            MONTH: 1
+            WEEK_OF_THE_YEAR: 2
+          - DATE_ID: 'a5a805bc9b24b5141b05b82dd01b97b3'
+            YEAR: 2025
+            MONTH: 1
+            WEEK_OF_THE_YEAR: 3
+    expect:
+      rows:
+        - WEEK: 1
+          MONTH: 1
+          YEAR: 2025
+          TRIP_VOLUME: 1
+          PREVIOUS_TRIP_VOLUME: 0
+          WOW_GROWTH_RATE: 0
+        - WEEK: 2
+          MONTH: 1
+          YEAR: 2025
+          TRIP_VOLUME: 3
+          PREVIOUS_TRIP_VOLUME: 1
+          WOW_GROWTH_RATE: 200
+        - WEEK: 3
+          MONTH: 1
+          YEAR: 2025
+          TRIP_VOLUME: 2
+          PREVIOUS_TRIP_VOLUME: 3
+          WOW_GROWTH_RATE: -33.33

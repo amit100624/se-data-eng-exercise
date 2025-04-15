@@ -22,31 +22,36 @@ sources:
       - name: taxi_trips_consistent
 
 models:
+  - name: trip_volume_growth_analysis
+    description: "Trip volume growth analysis (week over week)"
+    config:
+      materialized: view
+      tags: [ 'taxi_trips_analysis' ]
   - name: dim_vendor
     description: "Vendor dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_analysis' ]
   - name: dim_payment_type
     description: "Payment type dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_analysis' ]
   - name: dim_date
     description: "Date dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_analysis' ]
   - name: dim_location
     description: "Location dimension table"
     config:
       materialized: table
-      tags: [ 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_analysis' ]
   - name: fact_taxi_trips
     description: "Taxi trips fact table"
     config:
       materialized: table
-      tags: [ 'taxi_trips_fact_dim' ]
+      tags: [ 'taxi_trips_analysis' ]
   - name: taxi_trips_consistent
     description: "Taxi trips consistent cleansed data"
     config:
